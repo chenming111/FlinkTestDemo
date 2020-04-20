@@ -2,7 +2,9 @@ package com.adc.hbasedemo;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.configuration.Configuration;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
@@ -11,9 +13,9 @@ import org.apache.hadoop.hbase.client.ConnectionFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
+import java.net.URISyntaxException;
 
-
+//https://blog.csdn.net/zhangdongan1991/article/details/104714541
 @Slf4j
 public class HBaseConnPool implements Serializable {
 
@@ -55,7 +57,7 @@ public class HBaseConnPool implements Serializable {
         return conn;
     }
 
-    private void createConnectionPool() throws IOException {
+    private void createConnectionPool() throws IOException, URISyntaxException {
         log.info("create connection pool");
         loadConfiguration();
         conn = ConnectionFactory.createConnection(conf);
@@ -74,7 +76,7 @@ public class HBaseConnPool implements Serializable {
     /**
      * 加载配置文件
      */
-    private void loadConfiguration(){
+    private void loadConfiguration() throws URISyntaxException {
 
         conf = HBaseConfiguration.create();
         //获取路径:classes/
@@ -82,8 +84,10 @@ public class HBaseConnPool implements Serializable {
         String hbaseFilePath = filePath + "hbase" + File.separator;
 
         //读取hbase客户端配置文件
+
         conf.addResource(new Path(hbaseFilePath + "core-site.xml"));
         conf.addResource(new Path(hbaseFilePath + "hbase-site.xml"));
+
     }
 }
 

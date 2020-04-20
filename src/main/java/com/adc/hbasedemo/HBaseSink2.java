@@ -15,6 +15,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import java.io.IOException;
 import java.util.List;
 
+//数据组装逻辑在invoke方法,接收源数据，将源数据解析成hbase表需要的格式
 @Slf4j
 public class HBaseSink2 extends RichSinkFunction<String> {
 

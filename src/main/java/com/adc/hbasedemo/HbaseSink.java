@@ -17,6 +17,13 @@ import java.net.URISyntaxException;
 
 public class HbaseSink implements SinkFunction<String> {
 
+    /**
+     *
+     * @param value  接收flink的source 数据源，此处为string格式，有的为list<Put>
+     * @param context
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public void invoke(String value,Context context) throws IOException, URISyntaxException {
         Connection connection = null;
         Table table = null;
